@@ -1,0 +1,29 @@
+name: quark_auto_sign
+on:
+  schedule:
+    - cron: 0 16 * * *
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  my_job:
+    runs-on: ubuntu-latest
+    env:
+      CHAT_ID: ${{secrets.CHAT_ID}}
+      TOKEN: ${{secrets.TOKEN}}
+    steps:
+      - name: install-python
+        uses: actions/checkout@v4
+
+      - name: install dependencies
+        run: |
+          pip3 install -r requirements.txt
+
+      - name: sign in
+        run: |
+          python main.py --cookie "${{vars.COOKIE}}"
+    
+    
+
